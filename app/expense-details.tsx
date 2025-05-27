@@ -110,8 +110,8 @@ export default function ExpenseDetailsScreen() {
         }
     };
 
-    const formatCurrency = (amount: number) => {
-        if (isNaN(amount)) {
+    const formatCurrency = (amount: number | null | undefined) => {
+        if (amount === null || amount === undefined || isNaN(amount)) {
             return '$0.00';
         }
         return `$${amount.toFixed(2)}`;

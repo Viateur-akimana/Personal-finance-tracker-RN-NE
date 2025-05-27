@@ -158,7 +158,9 @@ export const expensesAPI = {
             return response.data.map((expense: any) => ({
                 ...expense,
                 title: expense.title || expense.name || 'Untitled Expense',
-                amount: typeof expense.amount === 'string' ? parseFloat(expense.amount) : expense.amount,
+                amount: expense.amount !== null && expense.amount !== undefined
+                    ? (typeof expense.amount === 'string' ? parseFloat(expense.amount) : expense.amount)
+                    : 0,
                 category: expense.category || 'Other',
                 date: expense.date || new Date().toISOString().split('T')[0],
             }));
@@ -190,7 +192,9 @@ export const expensesAPI = {
             return {
                 ...expense,
                 title: expense.title || expense.name || 'Untitled Expense',
-                amount: typeof expense.amount === 'string' ? parseFloat(expense.amount) : expense.amount,
+                amount: expense.amount !== null && expense.amount !== undefined
+                    ? (typeof expense.amount === 'string' ? parseFloat(expense.amount) : expense.amount)
+                    : 0,
                 category: expense.category || 'Other',
                 date: expense.date || new Date().toISOString().split('T')[0],
             };

@@ -24,7 +24,10 @@ const ExpenseItem: React.FC<ExpenseItemProps> = ({ expense, onPress, onDelete })
     return new Date(dateString).toLocaleDateString();
   };
 
-  const formatCurrency = (amount: number | string) => {
+  const formatCurrency = (amount: number | string | null | undefined) => {
+    if (amount === null || amount === undefined) {
+      return '$0.00';
+    }
     const numAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
     return `$${(isNaN(numAmount) ? 0 : numAmount).toFixed(2)}`;
   };
@@ -141,6 +144,12 @@ export default function ExpensesScreen() {
 
   const getTotalExpenses = () => {
     const total = expenses.reduce((total, expense) => {
+      // Handle null/undefined amounts
+      if (expense.amount === null || expense.amount === undefined) {
+        console.log(`Expense: ${expense.title}, Amount: null/undefined, Skipping`);
+        return total;
+      }
+
       // Ensure amount is a number to avoid NaN
       const amount = typeof expense.amount === 'string' ? parseFloat(expense.amount) : expense.amount;
       console.log(`Expense: ${expense.title}, Amount: ${expense.amount} (${typeof expense.amount}), Parsed: ${amount}`);
